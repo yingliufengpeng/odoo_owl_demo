@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+
+    <t t-name="Main">
+
+        <t t-foreach="props.items" t-as="item" t-key="item.id">
+            <h1> <t t-out="item.name"/> <t t-out="item.age"/> </h1>
+        </t>
+    </t>
+</templates>
