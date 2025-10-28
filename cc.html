@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <title>细雨社 | 搜索</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <!-- Bootstrap -->
+  <link rel="apple-touch-icon" sizes="140x140" href="/static/favicon.ico">
+  <link rel="shortcut icon" href="/static/favicon.ico">
+  <link href="/static/css/libs/bootstrap.min.css" rel="stylesheet" media="screen">
+  <link href="/static/css/style.css" rel="stylesheet" media="screen">
+
+
+
+
+  <style>
+
+    /* 遮罩样式 */
+    .overlay {
+      display: none; /* 默认隐藏 */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色背景 */
+      z-index: 1000; /* 确保遮罩在最上层 */
+    }
+
+    /* 加载动画样式 */
+    .loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+
+    .xiyushe {
+      border: 5px solid #3498db;
+      margin-bottom: 10px;
+    }
+
+    /* 旋转动画 */
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="search " data-text="首页" data-textback="后退">
+<div class="overlay" id="overlay">
+  <div class="loader"></div>
+</div>
+<!-- Static navbar -->
+<div class="navbar navbar-default navbar-static-top" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">切换导航</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">细雨社</a>
+    </div>
+
+
+
+    <input id='myInput' type='hidden' value="/full_index_search" >  </input>
+    <!--# margin 0, padding 15, background color-->
+    <form id="myForm" class="navbar-form navbar-left" role="search" action="/search" method="GET">
+      <div class="form-group input-group input-group-sm">
+        <label for="query" class="sr-only">搜索</label>
+        <input type="text" class="form-control" id="query" name="query" placeholder="搜索书库" value="天师真人">
+        <span class="input-group-btn">
+                <button type="submit" id="query_submit" class="btn btn-default">书名/代码搜索</button>
+                <button type="submit" id="full_index_query_submit" class="btn btn-default">全文搜索</button>
+              </span>
+      </div>
+
+      <script type="text/javascript">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </script>
+    </form>
+
+    <div class="navbar-collapse collapse">
+
+      <!-- <ul class="nav navbar-nav ">
+        <li><a href="/advsearch" id="advanced_search"><span class="glyphicon glyphicon-search"></span><span class="hidden-sm"> 高级搜索</span></a></li>
+
+      </ul> -->
+
+      <ul class="nav navbar-nav navbar-right" id="main-nav">
+
+
+
+
+
+
+
+        <li><a id="top_user" data-text="账号" href="/login?next=/full_index_search/stored/?query%3D%25E5%25A4%25A9%25E5%25B8%2588%25E7%259C%259F%25E4%25BA%25BA"><span class="glyphicon glyphicon-user"></span> <span class="hidden-sm">Guest</span></a></li>
+
+
+
+
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+
+
+
+<div class="container-fluid">
+  <div class="row-fluid">
+
+    <div class="col-sm-2">
+      <nav class="navigation">
+        <ul class="list-unstyled" id="scnd-nav" intent in-standard-append="nav.navigation" in-mobile-after="#main-nav" in-mobile-class="nav navbar-nav">
+          <li class="nav-head hidden-xs">按条件浏览</li>
+
+
+          <li id="nav_new" ><a href="/?data=root&amp;sort_param=stored"><span class="glyphicon glyphicon-book"></span> 书籍</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <li id="nav_serie" ><a href="/series?data=series&amp;sort_param=stored"><span class="glyphicon glyphicon-bookmark"></span> 丛书</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <li class="nav-head hidden-xs public-shelves">书架列表</li>
+
+          <li><a href="/shelf/14"><span class="glyphicon glyphicon-list shelf"></span> 0 导读简介 (公共)</a></li>
+
+          <li><a href="/shelf/2"><span class="glyphicon glyphicon-list shelf"></span> 基础1阶 第1小阶 (公共)</a></li>
+
+          <li><a href="/shelf/3"><span class="glyphicon glyphicon-list shelf"></span> 基础1阶 第2小阶 (公共)</a></li>
+
+          <li><a href="/shelf/4"><span class="glyphicon glyphicon-list shelf"></span> 基础1阶 第3小阶 (公共)</a></li>
+
+          <li><a href="/shelf/5"><span class="glyphicon glyphicon-list shelf"></span> 基础1阶 第4小阶 (公共)</a></li>
+
+          <li><a href="/shelf/6"><span class="glyphicon glyphicon-list shelf"></span> 基础2阶 第5小阶 (公共)</a></li>
+
+          <li><a href="/shelf/7"><span class="glyphicon glyphicon-list shelf"></span> 基础2阶 第6小阶 (公共)</a></li>
+
+          <li><a href="/shelf/8"><span class="glyphicon glyphicon-list shelf"></span> 基础3阶 第7小阶 (公共)</a></li>
+
+          <li><a href="/shelf/9"><span class="glyphicon glyphicon-list shelf"></span> 基础3阶 第8小阶 (公共)</a></li>
+
+          <li><a href="/shelf/10"><span class="glyphicon glyphicon-list shelf"></span> 基础4阶 第9小阶 (公共)</a></li>
+
+          <li><a href="/shelf/11"><span class="glyphicon glyphicon-list shelf"></span> 基础4阶第10小阶 (公共)</a></li>
+
+          <li><a href="/shelf/12"><span class="glyphicon glyphicon-list shelf"></span> 扩展1阶 第11小阶 (公共)</a></li>
+
+          <li><a href="/shelf/15"><span class="glyphicon glyphicon-list shelf"></span> 扩展1阶 第12小阶 (公共)</a></li>
+
+          <li><a href="/shelf/16"><span class="glyphicon glyphicon-list shelf"></span> 扩展1阶 第13小阶 (公共)</a></li>
+
+          <li><a href="/shelf/17"><span class="glyphicon glyphicon-list shelf"></span> 扩展2阶 第14小阶 (公共)</a></li>
+
+          <li><a href="/shelf/18"><span class="glyphicon glyphicon-list shelf"></span> 扩展2阶 第15小阶 (公共)</a></li>
+
+
+
+
+        </ul>
+      </nav>
+    </div>
+
+    <div class="col-sm-10">
+
+
+      <div class="container">
+
+        <!-- 导航标签 -->
+        <ul class="nav nav-tabs">
+
+
+          <li class=" active"><a href="#page0" data-toggle="tab">数据二</a></li>
+
+          <li class=""><a href="#page1" data-toggle="tab">数据二</a></li>
+
+        </ul>
+
+
+
+        <!-- 内容区域 -->
+        <div class="tab-content" style="margin-top:20px;">
+
+          <div class="tab-pane fade  in active" id="page0">
+
+            <div class="xiyushe row g-3">
+              <!-- 第一条记录 -->
+              <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                  <div class="card-body">
+                    <h5 class="card-title"> X5-1《虚空法界框架结构详解》第五部《寻找答案》上篇 90-108 -20250227</h5>
+
+                    <p>
+                      <span class="badge bg-success">EPUB</span>
+                    </p>
+                    <p class="card-text">
+                      …有何关系。
+
+
+                      <span style="color:red">天师真人</span>眼睛眯成了一条缝，盯着桌上烛火，好像陷入了沉思，嘴里呢喃地自问：“我辈中人，修行一生，了天地大道之妙，凝聚心神，可为何来，可为何来！”
+
+
+                      道不二没有打断<span style="color:red">天师真人</span>的出神，只是在一旁静候着。
+
+
+                      <span style="color:red">天师真人</span>好像慢慢地…
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="xiyushe row g-3">
+              <!-- 第一条记录 -->
+              <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                  <div class="card-body">
+                    <h5 class="card-title"> X5-1《虚空法界框架结构详解》第五部《寻找答案》上篇 90-108 -20250227</h5>
+
+                    <p>
+                      <span class="badge bg-success">PDF</span>
+                    </p>
+                    <p class="card-text">
+                      …关系。
+                      <span style="color:red">天师真人</span>眼睛眯成了一条缝，盯着桌上烛火，好像陷入了沉
+                      思，嘴里呢喃地自问：“我辈中人，修行一生，了天地大道
+                      之妙，凝聚心神，可为何来，可为何来！”
+                      道不二没有打断<span style="color:red">天师真人</span>的出神，只是在一旁静候着。
+                      <span style="color:red">天师真人</span>好像慢慢地…
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+
+
+
+
+          </div>
+          <div class="tab-pane fade " id="page1">
+
+            <div class="xiyushe row g-3">
+              <!-- 第一条记录 -->
+              <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                  <div class="card-body">
+                    <h5 class="card-title"> X5-2《虚空法界框架结构详解》第五部《寻找答案》下篇 （109-128）-20250227</h5>
+
+                    <p>
+                      <span class="badge bg-success">EPUB</span>
+                    </p>
+                    <p class="card-text">
+                      …众修们，守着经阁名师，又有几个有缘得修真经、听闻至理？自己转了三家庭院，进出无数丛林，也就<span style="color:red">天师真人</span>能说出点儿东西来。毕竟浩渺天道，又怎么是常人能说清道明的呢。其间奥义庞杂玄妙，奇幻多变，远超人们思想见闻的边际…
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="xiyushe row g-3">
+              <!-- 第一条记录 -->
+              <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                  <div class="card-body">
+                    <h5 class="card-title"> X5-2《虚空法界框架结构详解》第五部《寻找答案》下篇 （109-128）-20250227</h5>
+
+                    <p>
+                      <span class="badge bg-success">PDF</span>
+                    </p>
+                    <p class="card-text">
+                      …修们，守着经阁名师，又有
+                      几个有缘得修真经、听闻至理？自己转了三家庭院，进出无
+                      数丛林，也就<span style="color:red">天师真人</span>能说出点儿东西来。毕竟浩渺天道，
+                      又怎么是常人能说清道明的呢。其间奥义庞杂玄妙，奇幻多
+                      变，远超人们思想见闻的…
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="/static/js/libs/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="/static/js/libs/bootstrap.min.js"></script>
+  <script src="/static/js/libs/underscore-umd-min.js"></script>
+  <script src="/static/js/libs/intention.min.js"></script>
+  <script src="/static/js/libs/context.min.js"></script>
+  <script src="/static/js/libs/plugins.js"></script>
+  <script src="/static/js/libs/jquery.form.min.js"></script>
+  <script src="/static/js/uploadprogress.js"> </script>
+  <script src="/static/js/main.js"></script>
+
+
+</body>
+
+
+
+</html>

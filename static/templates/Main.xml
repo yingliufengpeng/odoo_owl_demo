@@ -3,9 +3,15 @@
 
 
     <t t-name="Main">
-
-        <t t-foreach="props.items" t-as="item" t-key="item.id">
-            <h1> <t t-out="item.name"/> <t t-out="item.age"/> </h1>
+        <div class="container">
+                    <t t-foreach="props.items" t-as="item" t-key="item.id">
+<!--            <h1> <t t-out="item.name"/> <t t-out="item.age"/> </h1>-->
+                        <Item t-props="item">
+                <h1>ok</h1>
+            </Item>
         </t>
+            <button  t-on-click.stop="AddItem">Add</button>
+        </div>
+
     </t>
 </templates>

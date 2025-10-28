@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+
+    <t t-name="Item">
+        <div>
+            <h1 style="border=4px;" class="item">
+                <t t-out="props.id"/> -- <t t-out="props.name"/> -- <t t-out="props.age"/>
+                counter <t t-out="state.count"/>  --
+<!--                <button t-on-click.stop="() => { state.count += 1; }">计数</button>-->
+                <button type="button" class="btn btn-info" t-on-click.stop="() => { state.count += 1; }">计数</button>
+                <button type="button" class="btn btn-danger" t-on-click.stop="OnDelteItem">删除</button>
+
+            </h1>
+            <t t-slot="default"/>
+        </div>
+
+    </t>
+</templates>

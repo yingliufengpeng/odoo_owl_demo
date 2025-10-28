@@ -1,13 +1,18 @@
 
-const { Component, mount, xml, loadFile, reactive, useState } = owl;
+const { Component, mount, xml, loadFile, reactive, useState, useSubEnv, whenReady } = owl;
 
 // Owl Components
 class Root extends Component {
     setup()  {
         this.items = reactive_items;
+        useSubEnv({
+            UpdateItems,
+            DeleteItem
+        })
     }
     static template = xml` <Main items="items"></Main> `
 }
+
 
 
 const items = [
@@ -24,18 +29,31 @@ const items = [
     },
 ];
 
+let id = items.length + 1;
+
+const UpdateItems = (type, name, age) => {
+    if (type === 'add') {
+        reactive_items.push({ id, name, age });
+        id += 1;
+    }
+}
+
+const DeleteItem = (id) => {
+    // reactive_items.remove(id - 1);
+    let i = reactive_items.findIndex(item => item.id === id);
+    reactive_items.splice(i, 1);
+}
 
 const reactive_items = reactive(items);
 
-
-// async, so we can use async/await
-(async function setup() {
+whenReady(async () => {
     const get_xml_string = async (urls) => {
         return await Promise.all(urls.map(async url => loadFile(url)));
     }
 
     const rootString_ls = await get_xml_string([
         '/static/templates/Main.xml',
+        '/static/templates/Item.xml',
     ]);
     let templates = {};
     const parser = new DOMParser();
@@ -55,7 +73,6 @@ const reactive_items = reactive(items);
     };
 
     mount(Root, document.body, { env, templates, dev: true  });
-})();
-
+})
 
 

@@ -1,0 +1,75 @@
+/* 背景色轮转（淡雅但对比更高） */
+.xiyu_bg {
+    position: fixed;
+    inset: 0;
+    /*background: conic-gradient(from var(--rotate-angle, 0deg), rgb(198 70 70 / 60%), rgba(220, 230, 255, 0.6), rgb(66 190 134 / 60%), rgba(255, 240, 200, 0.6), rgb(57 51 42 / 25%), rgba(255, 200, 200, 0.6));*/
+    /*background: conic-gradient(from var(--rotate-angle, 0deg), rgb(198 70 70 / 60%), rgba(220, 230, 255, 0.6), rgb(66 190 134 / 60%), rgba(255, 240, 200, 0.6), rgb(81 29 132 / 60%), rgba(255, 200, 200, 0.6));*/
+    background: linear-gradient(to right, rgb(66 190 134 / 5%), rgb(66 190 134 / 10%), rgba(66 190 134 / 20%), #f2f2f2);
+    /*animation: rotateHue 240s linear infinite;*/
+    /*filter: blur(30px) saturate(130%);*/
+}
+
+/* 半透明暗幕，提升文字对比 */
+.xiyu_mask {
+    position: fixed;
+    inset: 0;
+    /*background: rgba(0, 0, 0, 0.35);*/
+    z-index: 0;
+}
+
+/* 呼吸光层 */
+.xiyu_overlay {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.25), transparent 40%),
+    radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.15), transparent 40%);
+    animation: breathe 20s ease-in-out infinite;
+    mix-blend-mode: screen;
+    z-index: 1;
+}
+
+@keyframes rotateHue {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes breathe {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.05);
+    }
+}
+
+/* 文字更显眼（加阴影和微光） */
+.content {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    text-align: center;
+    font-family: system-ui, sans-serif;
+    top: 40%;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6),
+    0 0 15px rgba(150, 200, 255, 0.5);
+}
+
+
+
+
+.navbar-default {
+    background-color: transparent;
+}
+
+.modal-content {
+    /*background: rgb(245, 238, 238);*/
+    /*background: linear-gradient(to right, rgb(245  238  225), rgb(245  238  230 ), rgb(245  238  233  ), rgb(245  238  238  ), rgba(245  238  245  ), #f2f2f2);*/
+    background: linear-gradient(to right, rgb(245  238  225), rgb(245  238  230  ), rgb(245  238  235 ), rgb(245  238  240 ), rgba(245  238  245  ), #f2f2f2);
+
+}
